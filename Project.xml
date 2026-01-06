@@ -122,7 +122,6 @@
 	<section if="USING_MOONCHART">
 		<haxelib name="moonchart" version="0.5.0" unless="USING_NEW_MOONCHART"/>
 		<haxelib name="moonchart" version="git" if="USING_NEW_MOONCHART"/>
-		<classpath path="haxelibMoonchartShadow" unless="USING_NEW_MOONCHART"/>
 	</section>
 
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
