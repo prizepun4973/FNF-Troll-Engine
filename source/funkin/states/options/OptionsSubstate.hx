@@ -143,7 +143,7 @@ class OptionsSubstate extends MusicBeatSubstate
 			]
 		],
 		"video" => [
-			["video", ["shaders", "showFPS", "showMemory", "fpsBG"]],
+			["video", ["shaders", "fpsBG"]],
 			["display", ["framerate", #if FUNNY_ALLOWED "bread", "fish" #end]],
 			[
 				"performance",
@@ -344,12 +344,6 @@ class OptionsSubstate extends MusicBeatSubstate
 		{
 			case 'useEpics':
 				checkWindows();
-			case 'showFPS':
-				if (Main.fpsVar != null)
-					Main.fpsVar.visible = val;
-			case 'showMemory':
-				if (Main.fpsVar != null)
-					Main.fpsVar.showMemory = val;
 			case 'fpsBG':
 				if (Main.fpsVar != null)
 					Main.fpsVar.background = val;
