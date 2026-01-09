@@ -65,7 +65,7 @@ import openfl.filters.BitmapFilter;
 import openfl.filters.ShaderFilter;
 
 using StringTools;
-using funkin.CoolerStringTools;
+using CoolerStringTools;
 
 #if DISCORD_ALLOWED
 import funkin.api.Discord;

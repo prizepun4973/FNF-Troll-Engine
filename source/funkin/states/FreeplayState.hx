@@ -17,7 +17,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 using StringTools;
-using funkin.CoolerStringTools;
+using CoolerStringTools;
 
 @:injectMoreFunctions([
 	"onSelectSong",

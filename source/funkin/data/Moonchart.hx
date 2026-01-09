@@ -18,7 +18,7 @@ import moonchart.Moonchart;
 import sys.FileSystem;
 import sys.io.File;
 
-using funkin.CoolerStringTools;
+using CoolerStringTools;
 using StringTools;
 
 typedef StepManiaDynamic = moonchart.formats.StepMania.StepManiaBasic<moonchart.parsers.StepManiaParser.StepManiaFormat>;
