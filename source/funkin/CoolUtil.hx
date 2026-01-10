@@ -91,6 +91,36 @@ class CoolUtil {
 		return 0;	
 	}
 
+	public static function stringSort(ordering:Array<String>, a:String, b:String):Int {
+		if(a==b) return 0;
+
+		var aHasDefault = ordering.contains(a);
+		var bHasDefault = ordering.contains(b);
+		if (aHasDefault && bHasDefault)
+			return ordering.indexOf(a) - ordering.indexOf(b);
+		else if(aHasDefault)
+			return 1;
+		else if(bHasDefault)
+			return -1;
+		else
+			return alphabeticalSort(a, b);
+	}
+
+	public static function customSort<T>(ordering:Array<T>, a:T, b:T):Int {
+		if(a==b) return 0;
+
+		var aHasDefault = ordering.contains(a);
+		var bHasDefault = ordering.contains(b);
+		if (aHasDefault && bHasDefault)
+			return ordering.indexOf(a) - ordering.indexOf(b);
+		else if(aHasDefault)
+			return 1;
+		else if(bHasDefault)
+			return -1;
+		else
+			return 0;
+	}
+
 	////
 	inline public static function blankSprite(width, height, color=0xFFFFFFFF) {
 		var spr = new FlxSprite().makeGraphic(1, 1);
