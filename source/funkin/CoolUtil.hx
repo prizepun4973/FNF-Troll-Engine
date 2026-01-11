@@ -1,5 +1,6 @@
 package funkin;
 
+import funkin.data.BaseSong;
 import haxe.io.Bytes;
 import haxe.io.Path;
 
@@ -24,6 +25,17 @@ import openfl.net.FileFilter;
 using StringTools;
 
 class CoolUtil {
+	// TODO: reuse song instances n get rid of this
+	public static function indexOfSong(songList:Array<BaseSong>, song:BaseSong):Int {
+		// return songList.indexOf(song);
+		if (song != null) for (i => s in songList) {
+			if (song.songId == s.songId && song.folder == s.folder) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	// TIRED OF WRITING THIS FUCKING SHIT
 	public static function updateIndex(curIdx:Int, val:Int, length:Int) {
 		curIdx += val;
