@@ -18,6 +18,7 @@ haxelib --always --quiet install moonchart 0.5.1
 haxelib --always --quiet install flxanimate 3.0.4
 haxelib --always --quiet git funkin.vis https://github.com/FunkinCrew/funkVis
 haxelib --always --quiet git grig.audio https://github.com/FunkinCrew/grig.audio refactor/fft-cam-version
+haxelib --always --quiet git linc_filedialogs https://github.com/swordcube/linc_filedialogs
 @echo off
 echo ---------
 echo Finished!
