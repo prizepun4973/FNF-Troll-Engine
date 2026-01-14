@@ -51,7 +51,7 @@ class ButtonBindsSubstate extends MusicBeatSubstate implements IBindsMenu<FlxGam
 	var overCam:FlxCamera = new FlxCamera();
 	var scrollableCam:FlxCamera = new FlxCamera();
 
-	var camFollow = new FlxPoint(0, 0);
+	var camFollow = FlxPoint.get(0, 0);
 	var camFollowPos = new FlxObject(0, 0);
 
 	var bindIndex:Int = -1;
@@ -232,6 +232,8 @@ class ButtonBindsSubstate extends MusicBeatSubstate implements IBindsMenu<FlxGam
 		FlxG.cameras.remove(cam);
 		FlxG.cameras.remove(scrollableCam);
 		FlxG.cameras.remove(overCam);
+
+		camFollow.put();
 
 		return super.destroy();
 	}

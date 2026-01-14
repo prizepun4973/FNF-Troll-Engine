@@ -20,7 +20,7 @@ inline function getKeyName(id:Int):String
 inline function getJustPressed():Int
 	return FlxG.keys.firstJustPressed();
 
-class KeyBindsSubstate extends MusicBeatSubstate  {
+class KeyBindsSubstate extends MusicBeatSubstate implements IBindsMenu<FlxKey> {
 	// if an option is in this list, then atleast ONE key will have to be bound.
 	var forcedBind:Array<String> = ["ui_up", "ui_down", "ui_left", "ui_right", "accept", "back",];
 
@@ -67,7 +67,7 @@ class KeyBindsSubstate extends MusicBeatSubstate  {
 	var overCam:FlxCamera = new FlxCamera();
 	var scrollableCam:FlxCamera = new FlxCamera();
 
-	var camFollow = new FlxPoint(0, 0);
+	var camFollow = FlxPoint.get(0, 0);
 	var camFollowPos = new FlxObject(0, 0);
 
 	var bindIndex:Int = -1;
@@ -240,6 +240,8 @@ class KeyBindsSubstate extends MusicBeatSubstate  {
 		FlxG.cameras.remove(cam);
 		FlxG.cameras.remove(scrollableCam);
 		FlxG.cameras.remove(overCam);
+
+		camFollow.put();
 
 		return super.destroy();
 	}
