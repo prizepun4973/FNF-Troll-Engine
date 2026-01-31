@@ -218,6 +218,7 @@ class PlayState extends MusicBeatState
 	public var healthDrain:Float = 0.0;
 	public var opponentHPDrain:Float = 0.0;
 	public var holdsGiveHP:Bool = false;
+	public var directionalCam:Bool = false;
 
 	public var songSpeed(default, set):Float = 1.0;
 	public var songSpeedType:String = "multiplicative";
@@ -619,7 +620,8 @@ class PlayState extends MusicBeatState
 			disableModcharts = ClientPrefs.getGameplaySetting('disableModcharts', disableModcharts);
 			noDropPenalty = ClientPrefs.getGameplaySetting('noDropPenalty', noDropPenalty);
 			centerNotefield = ClientPrefs.centerNotefield;
-
+			directionalCam = ClientPrefs.directionalCam;
+			
 			#if tgt
 			playbackRate *= (ClientPrefs.ruin ? 0.8 : 1);
 			#end
@@ -2284,7 +2286,7 @@ class PlayState extends MusicBeatState
 			var xOff:Float = 0;
 			var yOff:Float = 0;
 
-			if (ClientPrefs.directionalCam && focusedChar != null){
+			if (directionalCam && focusedChar != null){
 				xOff = focusedChar.camOffX;
 				yOff = focusedChar.camOffY;
 			}
