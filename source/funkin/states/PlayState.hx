@@ -247,10 +247,7 @@ class PlayState extends MusicBeatState
 	#end
 
 	////
-	public var showJudge:Bool = true;
-	public var showCombo:Bool = true;
 	public var worldCombos(default, set):Bool = false;
-
 	public var worldComboOffset = FlxPoint.get(-150, 80);
 	public var worldJudgeOffset = FlxPoint.get(-40, -60);
 
@@ -266,18 +263,6 @@ class PlayState extends MusicBeatState
 
 	inline function get_lastJudge() return ratingGroup.lastJudge;
 	inline function get_lastCombo() return ratingGroup.lastCombo;
-	
-	#if ALLOW_DEPRECATION
-	@:deprecated("showComboNum is deprecated! use showCombo instead!")
-	@:noCompletion public var showComboNum(get, set):Bool;
-	@:noCompletion inline function get_showComboNum() return showCombo;
-	@:noCompletion inline function set_showComboNum(v) return showCombo = v;
-	
-	@:deprecated("showRating is deprecated! use showJudge instead!")
-	@:noCompletion public var showRating(get, set):Bool;
-	@:noCompletion inline function get_showRating() return showJudge;
-	@:noCompletion inline function set_showRating(v) return showJudge = v;
-	#end
 
 	////
 	public var skipCountdown:Bool = false;
@@ -2938,7 +2923,6 @@ class PlayState extends MusicBeatState
 		}
 
 		spr.color = 0xFFFFFFFF;
-		spr.visible = showJudge;
 		spr.alpha = ClientPrefs.judgeOpacity;	
 
 		if(hudSkinScript!=null)
@@ -2974,8 +2958,6 @@ class PlayState extends MusicBeatState
 		for (numSpr in lastCombo)
 		{
 			numSpr.color = comboColor;
-			numSpr.visible = showCombo;
-
 			numSpr.alpha = ClientPrefs.judgeOpacity;
 
 			if (ClientPrefs.simpleJudge)
