@@ -58,6 +58,7 @@ class RatingGroup extends FlxTypedGroup<RatingSprite>
 	var comboTemplate:RatingSprite = {
 		var graphic = Paths.image("comboNums");
 		var spr = new RatingSprite();
+		spr.setPosition(-150, 80);
 
 		if (graphic != null) {
 			spr.loadGraphic(graphic, true, Math.floor(graphic.width / 12), graphic.height);
@@ -74,6 +75,7 @@ class RatingGroup extends FlxTypedGroup<RatingSprite>
 
 	var judgeTemplate:RatingSprite = {
 		var spr = new RatingSprite();		
+		spr.setPosition(-40, -60);
 		spr.scale.set(.7, .7);
 		spr.updateHitbox();
 		spr;

@@ -248,8 +248,6 @@ class PlayState extends MusicBeatState
 
 	////
 	public var worldCombos(default, set):Bool = false;
-	public var worldComboOffset = FlxPoint.get(-150, 80);
-	public var worldJudgeOffset = FlxPoint.get(-40, -60);
 
 	public var lastJudge(get, never):RatingSprite;
 	public var lastCombo(get, never):Array<RatingSprite>;
@@ -2878,7 +2876,7 @@ class PlayState extends MusicBeatState
 			lastJudge.kill();
 
 		var spr:RatingSprite = if (worldCombos)
-			ratingGroup.displayJudgment(image, worldJudgeOffset.x, worldJudgeOffset.y);
+			ratingGroup.displayJudgment(image, ratingGroup.judgeTemplate.x, ratingGroup.judgeTemplate.y);
 		else
 			ratingGroup.displayJudgment(image, ClientPrefs.comboOffset[0], -ClientPrefs.comboOffset[1]);
 
@@ -2951,7 +2949,7 @@ class PlayState extends MusicBeatState
 		var comboColor = (combo < 0) ? hud.judgeColours.get("miss") : comboColor;
 
 		if (worldCombos)
-			ratingGroup.displayCombo(combo, worldComboOffset.x, worldComboOffset.y);
+			ratingGroup.displayCombo(combo, ratingGroup.comboTemplate.x, ratingGroup.comboTemplate.y);
 		else
 			ratingGroup.displayCombo(combo, ClientPrefs.comboOffset[2], -ClientPrefs.comboOffset[3]);		
 
