@@ -65,26 +65,36 @@ class CutscenePauseSubstate extends MusicBeatSubstate {
 				}
 			},
 			{
-				id: "skip-cutscene",
-				onAccept: () -> {
-					close();
-					associatedCutscene.onEnd.dispatch(true);
-				}
-			},
-			{
-				id: "restart-cutscene",
-				onAccept: () -> {
-					close();
-					associatedCutscene.restart();
-				}
-			},
-			{
 				id: "exit-to-menu",
 				onAccept: () -> {
 					PlayState.instance != null ? PlayState.gotoMenus() : MusicBeatState.switchState(new funkin.states.MainMenuState());
 				}
 			}
 		];
+		
+		// bro vsc added AI and IDK HOW TO GET RID OF IT
+		// BUT ITS GENERATED THE CODE I NEEDED
+		// FUCK MY LIFE IM BEING REPLACED
+		if(associatedCutscene.canRestart) {
+			options.insert(1, {
+				id: "restart-cutscene",
+				onAccept: () -> {
+					associatedCutscene.restart();
+					close();
+				}
+			});
+		}
+
+		
+		if(associatedCutscene.canSkip) {
+			options.insert(1, {
+				id: "skip-cutscene",
+				onAccept: () -> {
+					associatedCutscene.onEnd.dispatch(true);
+					close();
+				}
+			});
+		}
 		for (opt in options)
 			if (opt.filter == null || opt.filter())
 				opt.button = menu.addTextOption(Paths.getString("pauseoption_" + opt.id) ?? opt.id);
