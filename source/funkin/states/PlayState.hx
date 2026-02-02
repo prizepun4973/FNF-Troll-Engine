@@ -503,15 +503,10 @@ class PlayState extends MusicBeatState
 	public var hudSkinScript:FunkinHScript; // this is the HUD skin used for countdown, judgements, etc
 
 	////
-	@:noCompletion function set_hudSkin(value:String){
-		var script = getHudSkinScript(value);
-		
-		if (hudSkinScript != null)
-			hudSkinScript.call("onSkinUnload");
-		
-		hudSkinScript = script;
-
-		if(script != null)script.call("onSkinLoad");
+	@:noCompletion function set_hudSkin(value:String){		
+		hudSkinScript?.call("onSkinUnload");
+		hudSkinScript = getHudSkinScript(value);
+		hudSkinScript?.call("onSkinLoad");
 		return hudSkin = value;
 	}
 
@@ -1385,17 +1380,15 @@ class PlayState extends MusicBeatState
 	{
 		if(startedCountdown) {
 			callOnScripts('onStartCountdown');
-			callScript(hudSkinScript, "onStartCountdown");
+			hudSkinScript?.call("onStartCountdown");
 			return;
 		}
 
 		seenCutscene = true;
 		inCutscene = false;
 
-		if (hudSkinScript != null) {
-			if (callScript(hudSkinScript, "onStartCountdown") == Globals.Function_Stop)
-				return;
-		}
+		if (hudSkinScript?.call("onStartCountdown") == Globals.Function_Stop)
+			return;
 
 		if (callOnScripts('onStartCountdown') == Globals.Function_Stop)
 			return;
@@ -1412,8 +1405,7 @@ class PlayState extends MusicBeatState
 			(i==-1) ? this.add(curCountdown) : this.insert(i, curCountdown);
 
 			callOnScripts('onCountdownStarted');
-			if (hudSkinScript != null)
-				hudSkinScript.call("onCountdownStarted");
+			hudSkinScript?.call("onCountdownStarted");
 		}
 
 		startedCountdown = true;
@@ -1913,8 +1905,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function firstNotePush(type:String) {
-		if (notetypeScripts.exists(type))
-			callScript(notetypeScripts.get(type), "onLoad", []);
+		notetypeScripts.get(type)?.call("onLoad", []);
 	}
 
 	inline function addKeyboardEvents() {
@@ -1990,8 +1981,7 @@ class PlayState extends MusicBeatState
 		signals.optionsChanged.dispatch(options);
 
 		callOnScripts('optionsChanged', [options]);
-		if (hudSkinScript != null)
-			callScript(hudSkinScript, "optionsChanged", [options]);
+		hudSkinScript?.call("optionsChanged", [options]);
 	}
 
 	override function draw(){
@@ -2130,12 +2120,8 @@ class PlayState extends MusicBeatState
 	function stepHold(note:Note, field:PlayField)
 	{
 		callOnScripts("onHoldStep", [note, field]);
-		
-		if (note.noteScript != null)
-			callScript(note.noteScript, "onHoldStep", [note, field]);
-
-		if (note.genScript != null)
-			callScript(note.genScript, "onHoldStep", [note, field]);
+		note.noteScript?.call("onHoldStep", [note, field]);
+		note.genScript?.call("onHoldStep", [note, field]);
 
 		if(field.isPlayer){
 			if (holdsGiveHP && note.hitResult.judgment != UNJUDGED){
@@ -2149,12 +2135,8 @@ class PlayState extends MusicBeatState
 	function pressHold(note:Note, field:PlayField)
 	{
 		callOnScripts("onHoldPress", [note, field]);
-		
-		if (note.noteScript != null)
-			callScript(note.noteScript, "onHoldPress", [note, field]);
-
-		if (note.genScript != null)
-			callScript(note.genScript, "onHoldPress", [note, field]);
+		note.noteScript?.call("onHoldPress", [note, field]);
+		note.genScript?.call("onHoldPress", [note, field]);
 
 		if (cpuControlled && note.isRoll && ClientPrefs.hitsoundBehav == 'Key Press') 
 			playShithound();
@@ -2164,12 +2146,8 @@ class PlayState extends MusicBeatState
 	function releaseHold(note:Note, field:PlayField):Void
 	{
 		callOnScripts("onHoldRelease", [note, field]);
-		
-		if (note.noteScript != null)
-			callScript(note.noteScript, "onHoldRelease", [note, field]);
-
-		if (note.genScript != null)
-			callScript(note.genScript, "onHoldRelease", [note, field]);	
+		note.noteScript?.call("onHoldRelease", [note, field]);
+		note.genScript?.call("onHoldRelease", [note, field]);	
 	}
 
 	function field_noteSpawned(dunceNote:Note, field:PlayField) {
@@ -2179,8 +2157,7 @@ class PlayState extends MusicBeatState
 		unspawnNotes.remove(dunceNote);
 
 		callOnScripts('onSpawnNotePost', [dunceNote]);
-		if (dunceNote.noteScript != null)
-			callScript(dunceNote.noteScript, "postSpawnNote", [dunceNote]);
+		dunceNote.noteScript?.call("postSpawnNote", [dunceNote]);
 	}
 
 	function field_noteRemoved(note:Note, field:PlayField) {
@@ -2260,12 +2237,12 @@ class PlayState extends MusicBeatState
 	{
 		if (paused){
 			callOnScripts('onUpdate', [elapsed]);
-			if (hudSkinScript != null) hudSkinScript.call("onUpdate", [elapsed]);
+			hudSkinScript?.call("onUpdate", [elapsed]);
 
 			super.update(elapsed);
 
 			callOnScripts('onUpdatePost', [elapsed]);
-			if (hudSkinScript != null) hudSkinScript.call("onUpdatePost", [elapsed]);
+			hudSkinScript?.call("onUpdatePost", [elapsed]);
 
 			return;
 		}
@@ -2287,8 +2264,7 @@ class PlayState extends MusicBeatState
 		*/
 
 		callOnScripts('onUpdate', [elapsed]);
-		if (hudSkinScript != null)
-			hudSkinScript.call("onUpdate", [elapsed]);
+		hudSkinScript?.call("onUpdate", [elapsed]);
 
 		if (!disableCameraMovement) {
 			var xOff:Float = 0;
@@ -2452,8 +2428,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		callOnScripts('onUpdatePost', [elapsed]);
-		if (hudSkinScript != null)
-			hudSkinScript.call("onUpdatePost", [elapsed]);
+		hudSkinScript?.call("onUpdatePost", [elapsed]);
 	}
 
 	function openChartEditor()
@@ -2867,7 +2842,7 @@ class PlayState extends MusicBeatState
 
 	private function displayJudgment(image:String){
 		var r:Bool = false;
-		if(hudSkinScript!=null && callScript(hudSkinScript, "onDisplayJudgment", [image]) == Globals.Function_Stop)
+		if(hudSkinScript?.call("onDisplayJudgment", [image]) == Globals.Function_Stop)
 			r = true;
 		if(callOnScripts("onDisplayJudgment", [image]) == Globals.Function_Stop || r)
 			return;
@@ -2923,15 +2898,14 @@ class PlayState extends MusicBeatState
 		spr.color = 0xFFFFFFFF;
 		spr.alpha = ClientPrefs.judgeOpacity;	
 
-		if(hudSkinScript!=null)
-			callScript(hudSkinScript, "onDisplayJudgmentPost", [spr, image]);
+		hudSkinScript?.call("onDisplayJudgmentPost", [spr, image]);
 		callOnScripts("onDisplayJudgmentPost", [spr, image]);
 	}
 	
 	var comboColor = 0xFFFFFFFF;
 	private function displayCombo(?combo:Int){
 		var r:Bool = false;
-		if (hudSkinScript!=null && callScript(hudSkinScript, "onDisplayCombo", [combo]) == Globals.Function_Stop)
+		if (hudSkinScript?.call("onDisplayCombo", [combo]) == Globals.Function_Stop)
 			r = true;
 
 		if (callOnScripts("onDisplayCombo", [combo]) == Globals.Function_Stop || r)
@@ -2996,7 +2970,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(hudSkinScript!=null)callScript(hudSkinScript, "onDisplayComboPost", [combo]);
+		hudSkinScript?.call("onDisplayComboPost", [combo]);
 		callOnScripts("onDisplayComboPost", [combo]);
 	}
 
@@ -3046,7 +3020,7 @@ class PlayState extends MusicBeatState
 				comboColor = hud.judgeColours.get("epic");
 		}
 
-		if(hudSkinScript!=null)callScript(hudSkinScript, "onApplyJudgmentDataPost", [judgeData, diff, bot, show]);
+		hudSkinScript?.call("onApplyJudgmentDataPost", [judgeData, diff, bot, show]);
 		callOnScripts("onApplyJudgmentDataPost", [judgeData, diff, bot, show]);
 
 		if(show){
@@ -3068,7 +3042,7 @@ class PlayState extends MusicBeatState
 
 		var mutatedJudgeData:JudgmentData = Reflect.copy(judgeData);
 		if (note.noteScript != null){
-			var ret:Dynamic = callScript(note.noteScript, "mutateJudgeData", [note, mutatedJudgeData]);
+			var ret:Dynamic = note.noteScript.call("mutateJudgeData", [note, mutatedJudgeData]);
 			if (ret != null && ret != Globals.Function_Continue)
 				mutatedJudgeData = cast ret;
 		}
@@ -3291,7 +3265,7 @@ class PlayState extends MusicBeatState
 
 		if(callOnScripts("preNoteMiss", [daNote, field]) == Globals.Function_Stop)
 			return;
-		if (daNote.noteScript != null && callScript(daNote.noteScript, "preNoteMiss", [daNote, field]) == Globals.Function_Stop)
+		if (daNote.noteScript?.call("preNoteMiss", [daNote, field]) == Globals.Function_Stop)
 			return;
 
 		////
@@ -3346,10 +3320,8 @@ class PlayState extends MusicBeatState
 		
 		////
 		callOnScripts("noteMiss", [daNote, field]);
-		if (daNote.noteScript != null)
-			callScript(daNote.noteScript, "noteMiss", [daNote, field]);
-		if (daNote.genScript != null)
-			callScript(daNote.genScript, "noteMiss", [daNote, field]); 
+		daNote.noteScript?.call("noteMiss", [daNote, field]);
+		daNote.genScript?.call("noteMiss", [daNote, field]); 
 	}
 
 	function noteMissPress(direction:Int = 1, field:PlayField):Void //You pressed a key when there was no notes to press for this key
@@ -3395,7 +3367,7 @@ class PlayState extends MusicBeatState
 
 	function opponentNoteHit(note:Note, field:PlayField):Void
 	{
-		if (note.noteScript != null && callScript(note.noteScript, "preOpponentNoteHit", [note, field]) == Globals.Function_Stop)
+		if (note.noteScript?.call("preOpponentNoteHit", [note, field]) == Globals.Function_Stop)
 			return;
 		if (callOnScripts("preOpponentNoteHit", [note, field]) == Globals.Function_Stop)
 			return;
@@ -3406,11 +3378,8 @@ class PlayState extends MusicBeatState
 
 		// Script shit
 		callOnScripts("opponentNoteHit", [note, field]);
-		if (note.noteScript != null)
-			callScript(note.noteScript, "opponentNoteHit", [note, field]);	
-
-		if (note.genScript != null)
-			callScript(note.genScript, "noteHit", [note, field]);
+		note.noteScript?.call("opponentNoteHit", [note, field]);	
+		note.genScript?.call("noteHit", [note, field]);
 	}
 
 	function getNoteCharacters(note:Note, field:PlayField):Array<Character> {
@@ -3430,7 +3399,7 @@ class PlayState extends MusicBeatState
 	function commonNoteHit(note:Note, field:PlayField){ // things done by all note hit functions
 		camZooming = true;
 
-		if (note.noteScript != null && callScript(note.noteScript, "onCommonNoteHitPre", [note, field]) == Globals.Function_Stop)
+		if (note.noteScript?.call("onCommonNoteHitPre", [note, field]) == Globals.Function_Stop)
 			return;
 
 		if (callOnScripts("onCommonNoteHitPre", [note, field]) == Globals.Function_Stop)
@@ -3450,7 +3419,7 @@ class PlayState extends MusicBeatState
 
 		// Sing animations
 		var chars: Array<Character> = getNoteCharacters(note, field);
-		if (note.noteScript == null || callScript(note.noteScript, "playNoteAnim", [note, field, chars]) != Globals.Function_Stop)
+		if (note.noteScript?.call("playNoteAnim", [note, field, chars]) != Globals.Function_Stop)
 			for (char in chars) 
 				char.playNote(note, field);
 		
@@ -3462,9 +3431,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		////
-		if (note.noteScript != null)
-			callScript(note.noteScript, "onCommonNoteHit", [note, field]);
-
+		note.noteScript?.call("onCommonNoteHit", [note, field]);
 		callOnScripts("onCommonNoteHit", [note, field]);
 	}
 
@@ -3480,7 +3447,7 @@ class PlayState extends MusicBeatState
 		if (note.wasGoodHit || (field.autoPlayed && (note.ignoreNote || note.breaksCombo)))
 			return;
 
-		if (note.noteScript != null && callScript(note.noteScript, "preGoodNoteHit", [note, field]) == Globals.Function_Stop)
+		if (note.noteScript?.call("preGoodNoteHit", [note, field]) == Globals.Function_Stop)
 			return;
 		if (callOnScripts("preGoodNoteHit", [note, field]) == Globals.Function_Stop)
 			return;
@@ -3539,11 +3506,8 @@ class PlayState extends MusicBeatState
 		commonNoteHit(note, field);
 		// Script shit
 		callOnScripts("goodNoteHit", [note, field]);
-		if (note.noteScript != null)
-			callScript(note.noteScript, "goodNoteHit", [note, field]);
-
-		if (note.genScript != null)
-			callScript(note.genScript, "noteHit", [note, field]); // might be useful for some things i.e judge explosions
+		note.noteScript?.call("goodNoteHit", [note, field]);
+		note.genScript?.call("noteHit", [note, field]); // might be useful for some things i.e judge explosions
 	}
 
 	function getFieldFromNote(note:Note){
