@@ -31,7 +31,7 @@ class NoteSplash extends NoteObject
 
 		setPosition(x, y);
 		animationAmount = 2;
-		alpha = 0.6;
+		alpha = 1.0;
 		scale.set(0.8, 0.8);
 		updateHitbox();
 
