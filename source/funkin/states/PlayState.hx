@@ -2090,7 +2090,7 @@ class PlayState extends MusicBeatState
 	////
 	public function newPlayfield()
 	{
-		var field = new PlayField(modManager);
+		var field = new PlayField();
 		field.modNumber = playfields.members.length;
 		field.playerId = field.modNumber;
 		field.cameras = playfields.cameras;
