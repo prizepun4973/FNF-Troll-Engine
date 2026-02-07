@@ -3377,7 +3377,22 @@ class ChartingState extends MusicBeatState
 	}
 
 	inline function getNoteY(strumTime:Float, sectionNumber:Int):Float
-		return getYfromStrumNotes(strumTime - getSectionStartTime(curSec), getSectionBeats(sectionNumber));
+		return getYfromStrumNotes(calcY(strumTime) - getSectionStartTime(curSec), getSectionBeats(sectionNumber));
+
+	public static function calcY(strumTime:Float = 0) {
+        var map:BPMChangeEvent;
+        var crochet:Float;
+        if (Conductor.songPosition <= strumTime) {
+            map = Conductor.getBPMFromSeconds(strumTime);
+            crochet = (60 / map.bpm) * 1000;
+        }
+        else {
+            map = Conductor.getBPMFromSeconds(Conductor.songPosition);
+            crochet = (60 / Conductor.getBPMFromSeconds(strumTime).bpm) * 1000;
+        }
+        
+        return map.songTime + ((strumTime - map.songTime) / crochet * Conductor.crochet);
+    }
 
 	function setupEventData(i:PsychEventNote, sectionNumber:Int) {
 		var note:Note = new Note(i.strumTime, -1, null, -1, 0, true);
