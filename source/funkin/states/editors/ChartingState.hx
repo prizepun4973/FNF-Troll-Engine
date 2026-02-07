@@ -12,6 +12,7 @@ import funkin.scripts.FunkinHScript;
 import funkin.data.ChartData;
 import funkin.data.BaseSong;
 import funkin.data.Song;
+import funkin.Conductor.BPMChangeEvent;
 
 import funkin.objects.notes.*;
 import funkin.objects.ui.CustomFlxUI;
